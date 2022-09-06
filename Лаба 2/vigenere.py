@@ -3,7 +3,7 @@ dic = { "A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5, "G": 6, "H": 7, "I": 8, 
 def get_shift(keyword, currentIndex):
     newIndex = 0 if currentIndex == len(keyword) - 1 else currentIndex + 1
     return (dic[keyword[currentIndex]], newIndex)
-    
+
 def encrypt(char, shift):
     charNum = ord(char)
     newCharNum = charNum + shift
@@ -11,6 +11,8 @@ def encrypt(char, shift):
         newCharNum = newCharNum - ord("Z") + ord("A") - 1
     if (ord("a") <= charNum <= ord("z")) and (newCharNum > ord("z")):
         newCharNum = newCharNum - ord("z") + ord("a") - 1
+    if (charNum < ord("A") or charNum > ord('z') or (ord('Z') < charNum < ord('a'))):
+        newCharNum = charNum
     return chr(newCharNum)
 
 def decrypt(char, shift):
@@ -20,6 +22,8 @@ def decrypt(char, shift):
         newCharNum = newCharNum - ord("A") + ord("Z") + 1
     if (ord("a") <= charNum <= ord("z")) and (newCharNum < ord("a")):
         newCharNum = newCharNum - ord("a") + ord("z") + 1
+    if (charNum < ord("A") or charNum > ord('z') or (ord('Z') < charNum < ord('a'))):
+        newCharNum = charNum
     return chr(newCharNum)
 
 def encrypt_vigenere(plaintext: str, keyword: str) -> str:
@@ -28,7 +32,7 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
     keyword = keyword.upper()
     for c in plaintext:
         (shift, shiftIndex) = get_shift(keyword, shiftIndex)
-        ciphertext += encrypt(c, shift) 
+        ciphertext += encrypt(c, shift)
     return ciphertext
 
 
